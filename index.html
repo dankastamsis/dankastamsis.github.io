@@ -10,7 +10,6 @@ body {
   font-family: Arial, sans-serif;
   background: #f4f6f9;
   margin: 0;
-  padding: 0;
 }
 
 .container {
@@ -29,44 +28,38 @@ body {
 
 .label {
   font-weight: bold;
-  margin-bottom: 5px;
 }
 
-select, button, input {
+select, input, button {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
+  margin-top: 8px;
   border-radius: 8px;
   border: 1px solid #ccc;
 }
 
 button {
-  background: #007bff;
+  background: #28a745;
   color: white;
-  border: none;
   font-weight: bold;
-}
-
-button:hover {
-  background: #0056b3;
+  border: none;
 }
 
 .status {
   padding: 10px;
   border-radius: 8px;
   color: white;
-  font-weight: bold;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .red { background: #dc3545; }
-.yellow { background: #ffc107; color: black; }
+.yellow { background: #ffc107; color:black; }
 .green { background: #28a745; }
 
 img {
   width: 100%;
   border-radius: 8px;
-  margin-top: 5px;
 }
 </style>
 
@@ -75,7 +68,7 @@ img {
 
 <div class="container">
 
-  <!-- INFO LOKASI -->
+  <!-- INFO -->
   <div class="card">
     <div class="label">Lintas</div>
     <div id="lintas"></div>
@@ -84,7 +77,7 @@ img {
     <div id="km"></div>
   </div>
 
-  <!-- PILIH GANGGUAN -->
+  <!-- GANGGUAN -->
   <div class="card">
     <div class="label">Jenis Gangguan</div>
     <select id="gangguan" onchange="loadChecklist()">
@@ -111,7 +104,7 @@ img {
 
   <!-- CHECKLIST -->
   <div class="card">
-    <div class="label">Checklist Tindakan</div>
+    <div class="label">Checklist</div>
     <div id="checklist"></div>
   </div>
 
@@ -122,15 +115,18 @@ img {
   </div>
 
   <!-- BUTTON -->
-  <button onclick="simpanData()">💾 Simpan Laporan</button>
+  <button onclick="laporkan()">📤 Laporkan</button>
 
   <!-- HISTORY -->
   <div class="card">
-    <div class="label">Riwayat Kejadian</div>
+    <div class="label">Riwayat</div>
     <div id="historyBox"></div>
   </div>
 
 </div>
+
+<!-- LIBRARY PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
 const params = new URLSearchParams(window.location.search);
@@ -140,144 +136,131 @@ const km = params.get("km") || "-";
 document.getElementById("lintas").innerText = lintas;
 document.getElementById("km").innerText = km;
 
+// CHECKLIST
 function loadChecklist() {
   let jenis = document.getElementById("gangguan").value;
   let html = "";
   let status = document.getElementById("statusBox");
 
-  if (jenis === "retak") {
-    html = `
-      <label><input type="checkbox"> Identifikasi panjang retak</label><br>
-      <label><input type="checkbox"> Pasang tanda bahaya</label><br>
-      <label><input type="checkbox"> Lapor ke pusat</label>
-    `;
-    status.className = "status red";
-    status.innerText = "Status: Bahaya Tinggi";
-  }
+  const data = {
+    retak: ["Identifikasi retak", "Pasang tanda", "Lapor"],
+    aus: ["Ukur keausan", "Foto", "Monitoring"],
+    sambungan: ["Cek baut", "Kencangkan", "Cek alignment"],
+    deformasi: ["Cek bentuk", "Batasi kecepatan", "Darurat"],
+    lidah: ["Cek lidah", "Bersihkan", "Pastikan rapat"],
+    macet: ["Cek motor", "Pelumasan", "Manual"],
+    baut: ["Cek baut", "Kencangkan", "Ganti"],
+    kunci: ["Cek pengunci", "Pastikan aman", "Lapor"]
+  };
 
-  if (jenis === "aus") {
-    html = `
-      <label><input type="checkbox"> Ukur keausan</label><br>
-      <label><input type="checkbox"> Dokumentasi</label><br>
-      <label><input type="checkbox"> Jadwalkan perawatan</label>
-    `;
-    status.className = "status yellow";
-    status.innerText = "Status: Monitoring";
-  }
+  const statusMap = {
+    retak: ["status red", "Bahaya Tinggi"],
+    deformasi: ["status red", "Bahaya"],
+    lidah: ["status red", "Risiko Tinggi"],
+    kunci: ["status red", "Bahaya"],
+    aus: ["status yellow", "Monitoring"],
+    sambungan: ["status yellow", "Perbaikan"],
+    macet: ["status yellow", "Gangguan"],
+    baut: ["status yellow", "Perbaikan"]
+  };
 
-  if (jenis === "sambungan") {
-    html = `
-      <label><input type="checkbox"> Cek baut</label><br>
-      <label><input type="checkbox"> Kencangkan</label><br>
-      <label><input type="checkbox"> Cek alignment</label>
-    `;
-    status.className = "status yellow";
-    status.innerText = "Status: Perbaikan";
-  }
+  if (data[jenis]) {
+    html = data[jenis].map(i => 
+      `<label><input type="checkbox"> ${i}</label><br>`
+    ).join("");
 
-  if (jenis === "deformasi") {
-    html = `
-      <label><input type="checkbox"> Cek kelengkungan</label><br>
-      <label><input type="checkbox"> Batasi kecepatan</label><br>
-      <label><input type="checkbox"> Lapor darurat</label>
-    `;
-    status.className = "status red";
-    status.innerText = "Status: Bahaya";
-  }
-
-  if (jenis === "lidah") {
-    html = `
-      <label><input type="checkbox"> Cek lidah wesel</label><br>
-      <label><input type="checkbox"> Bersihkan</label><br>
-      <label><input type="checkbox"> Pastikan rapat</label>
-    `;
-    status.className = "status red";
-    status.innerText = "Status: Risiko Tinggi";
-  }
-
-  if (jenis === "macet") {
-    html = `
-      <label><input type="checkbox"> Cek motor</label><br>
-      <label><input type="checkbox"> Pelumasan</label><br>
-      <label><input type="checkbox"> Operasi manual</label>
-    `;
-    status.className = "status yellow";
-    status.innerText = "Status: Gangguan";
-  }
-
-  if (jenis === "baut") {
-    html = `
-      <label><input type="checkbox"> Cek baut</label><br>
-      <label><input type="checkbox"> Kencangkan</label><br>
-      <label><input type="checkbox"> Ganti jika rusak</label>
-    `;
-    status.className = "status yellow";
-    status.innerText = "Status: Perbaikan";
-  }
-
-  if (jenis === "kunci") {
-    html = `
-      <label><input type="checkbox"> Cek pengunci</label><br>
-      <label><input type="checkbox"> Pastikan aman</label><br>
-      <label><input type="checkbox"> Lapor segera</label>
-    `;
-    status.className = "status red";
-    status.innerText = "Status: Bahaya";
+    status.className = statusMap[jenis][0];
+    status.innerText = "Status: " + statusMap[jenis][1];
   }
 
   document.getElementById("checklist").innerHTML = html;
 }
 
-function simpanData() {
+// LAPORKAN
+async function laporkan() {
+  const { jsPDF } = window.jspdf;
+
   let jenis = document.getElementById("gangguan").value;
 
   let checklist = [];
   document.querySelectorAll("#checklist input:checked").forEach(el => {
-    checklist.push(el.parentElement.innerText);
+    checklist.push("- " + el.parentElement.innerText);
   });
 
   let file = document.getElementById("foto").files[0];
 
   if (!file) {
-    alert("Foto wajib diambil!");
+    alert("Foto wajib!");
     return;
   }
 
   let reader = new FileReader();
+
   reader.onload = function(e) {
+    let img = e.target.result;
+
+    // PDF
+    let doc = new jsPDF();
+    doc.text("LAPORAN GANGGUAN", 10, 10);
+    doc.text(`Lintas: ${lintas}`, 10, 20);
+    doc.text(`KM: ${km}`, 10, 25);
+    doc.text(`Jenis: ${jenis}`, 10, 30);
+    doc.text(`Waktu: ${new Date().toLocaleString()}`, 10, 35);
+
+    let y = 45;
+    checklist.forEach(c => {
+      doc.text(c, 10, y);
+      y += 5;
+    });
+
+    doc.addImage(img, 'JPEG', 10, y+5, 80, 60);
+    doc.save("laporan.pdf");
+
+    // SIMPAN HISTORY
     let data = {
       waktu: new Date().toLocaleString(),
-      jenis: jenis,
-      checklist: checklist,
-      foto: e.target.result
+      jenis,
+      checklist,
+      foto: img
     };
 
     let key = `history_${lintas}_${km}`;
-    let history = JSON.parse(localStorage.getItem(key)) || [];
+    let h = JSON.parse(localStorage.getItem(key)) || [];
+    h.push(data);
+    localStorage.setItem(key, JSON.stringify(h));
 
-    history.push(data);
-    localStorage.setItem(key, JSON.stringify(history));
-
-    alert("Laporan tersimpan!");
     tampilkanHistory();
+
+    // WHATSAPP
+    let pesan =
+`LAPORAN GANGGUAN
+Lintas: ${lintas}
+KM: ${km}
+Jenis: ${jenis}
+Waktu: ${new Date().toLocaleString()}
+
+Checklist:
+${checklist.join("\n")}`;
+
+    window.open("https://wa.me/?text=" + encodeURIComponent(pesan), "_blank");
   };
 
   reader.readAsDataURL(file);
 }
 
+// HISTORY
 function tampilkanHistory() {
   let key = `history_${lintas}_${km}`;
-  let history = JSON.parse(localStorage.getItem(key)) || [];
+  let h = JSON.parse(localStorage.getItem(key)) || [];
 
   let html = "";
 
-  history.slice().reverse().forEach(item => {
+  h.slice().reverse().forEach(i => {
     html += `
       <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
-        <b>${item.waktu}</b><br>
-        Gangguan: ${item.jenis}<br>
-        Checklist: ${item.checklist.join(", ")}<br>
-        <img src="${item.foto}">
+        <b>${i.waktu}</b><br>
+        ${i.jenis}<br>
+        <img src="${i.foto}">
       </div>
     `;
   });
