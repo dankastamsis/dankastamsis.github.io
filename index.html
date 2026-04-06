@@ -7,9 +7,8 @@
 
 <style>
 body {
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   background: #f4f6f9;
-  margin: 0;
 }
 
 .container {
@@ -23,114 +22,93 @@ body {
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.label {
-  font-weight: bold;
 }
 
 select, input, button {
   width: 100%;
   padding: 10px;
   margin-top: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
 }
 
 button {
-  background: #28a745;
+  background: green;
   color: white;
-  font-weight: bold;
-  border: none;
 }
 
 .status {
   padding: 10px;
-  border-radius: 8px;
-  color: white;
   text-align: center;
-  margin-bottom: 10px;
+  color: white;
 }
 
-.red { background: #dc3545; }
-.yellow { background: #ffc107; color:black; }
-.green { background: #28a745; }
+.red { background: red; }
+.yellow { background: orange; }
+.green { background: green; }
 
 img {
   width: 100%;
-  border-radius: 8px;
 }
 </style>
-
 </head>
+
 <body>
 
 <div class="container">
 
-  <!-- INFO -->
-  <div class="card">
-    <div class="label">Lintas</div>
-    <div id="lintas"></div>
+<div class="card">
+Lintas: <b id="lintas"></b><br>
+KM: <b id="km"></b>
+</div>
 
-    <div class="label">KM</div>
-    <div id="km"></div>
-  </div>
+<div class="card">
+<select id="gangguan" onchange="loadChecklist()">
+<option value="">-- Pilih --</option>
 
-  <!-- GANGGUAN -->
-  <div class="card">
-    <div class="label">Jenis Gangguan</div>
-    <select id="gangguan" onchange="loadChecklist()">
-      <option value="">-- Pilih --</option>
+<optgroup label="Rel">
+<option value="retak">Retak</option>
+<option value="aus">Aus</option>
+<option value="sambungan">Sambungan</option>
+<option value="deformasi">Deformasi</option>
+<option value="gogosan">Gogosan</option>
+<option value="lengkung">Lengkung</option>
+</optgroup>
 
-      <optgroup label="Rel">
-        <option value="retak">Retak Rel</option>
-        <option value="aus">Keausan Rel</option>
-        <option value="sambungan">Sambungan Longgar</option>
-        <option value="deformasi">Deformasi Rel</option>
-        <option value="gogosan">Gogosan Rel</option>
-        <option value="lengkung">Lengkung Rel Bermasalah</option>
-      </optgroup>
+<optgroup label="Wesel">
+<option value="lidah">Lidah</option>
+<option value="macet">Macet</option>
+<option value="baut">Baut</option>
+<option value="kunci">Kunci</option>
+</optgroup>
 
-      <optgroup label="Wesel">
-        <option value="lidah">Lidah Wesel Tidak Rapat</option>
-        <option value="macet">Penggerak Wesel Macet</option>
-        <option value="baut">Baut Wesel Longgar</option>
-        <option value="kunci">Wesel Tidak Terkunci</option>
-      </optgroup>
-    </select>
-  </div>
+</select>
+</div>
 
-  <!-- STATUS -->
-  <div id="statusBox" class="status green">Status: Normal</div>
+<div id="statusBox" class="status green">Status Normal</div>
 
-  <!-- CHECKLIST -->
-  <div class="card">
-    <div class="label">Checklist</div>
-    <div id="checklist"></div>
-  </div>
+<div class="card">
+<div id="checklist"></div>
+</div>
 
-  <!-- FOTO -->
-  <div class="card">
-    <div class="label">Foto Lokasi</div>
-    <input type="file" accept="image/*" capture="environment" id="foto">
-  </div>
+<div class="card">
+<input type="file" accept="image/*" capture="environment" id="foto">
+</div>
 
-  <!-- BUTTON -->
-  <button onclick="laporkan()">📤 Laporkan</button>
+<button onclick="laporkan()">📤 Laporkan</button>
 
-  <!-- HISTORY -->
-  <div class="card">
-    <div class="label">Riwayat</div>
-    <div id="jumlahHistory"></div>
-    <div id="historyBox"></div>
-  </div>
+<div class="card">
+<div id="jumlahHistory"></div>
+<div id="historyBox"></div>
+</div>
 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
+
+// 🔥 GANTI DENGAN URL ANDA
+const API_URL = "https://script.google.com/macros/s/XXXXXXXX/exec";
+
 const params = new URLSearchParams(window.location.search);
 const lintas = params.get("lintas") || "-";
 const km = params.get("km") || "-";
@@ -141,48 +119,29 @@ document.getElementById("km").innerText = km;
 // CHECKLIST
 function loadChecklist() {
   let jenis = document.getElementById("gangguan").value;
-  let html = "";
-  let status = document.getElementById("statusBox");
 
   const data = {
-    retak: ["Identifikasi retak", "Pasang tanda", "Lapor"],
-    aus: ["Ukur keausan", "Foto", "Monitoring"],
-    sambungan: ["Cek baut", "Kencangkan", "Cek alignment"],
-    deformasi: ["Cek bentuk", "Batasi kecepatan", "Darurat"],
-    gogosan: ["Identifikasi kedalaman", "Dokumentasi", "Grinding rel"],
-    lengkung: ["Cek radius", "Ukur elevasi", "Batasi kecepatan"],
-    lidah: ["Cek lidah", "Bersihkan", "Pastikan rapat"],
-    macet: ["Cek motor", "Pelumasan", "Manual"],
-    baut: ["Cek baut", "Kencangkan", "Ganti"],
-    kunci: ["Cek pengunci", "Pastikan aman", "Lapor"]
+    retak: ["Identifikasi", "Tandai", "Lapor"],
+    aus: ["Ukur", "Foto", "Monitor"],
+    sambungan: ["Cek baut", "Kencangkan"],
+    deformasi: ["Cek bentuk", "Batasi"],
+    gogosan: ["Ukur kedalaman", "Grinding"],
+    lengkung: ["Cek radius", "Batasi"],
+    lidah: ["Cek lidah", "Bersihkan"],
+    macet: ["Cek motor", "Manual"],
+    baut: ["Kencangkan", "Ganti"],
+    kunci: ["Cek pengunci"]
   };
 
-  const statusMap = {
-    retak: ["status red", "Bahaya Tinggi"],
-    deformasi: ["status red", "Bahaya"],
-    lengkung: ["status red", "Risiko Tinggi"],
-    lidah: ["status red", "Risiko Tinggi"],
-    kunci: ["status red", "Bahaya"],
-    aus: ["status yellow", "Monitoring"],
-    sambungan: ["status yellow", "Perbaikan"],
-    gogosan: ["status yellow", "Perlu Perawatan"],
-    macet: ["status yellow", "Gangguan"],
-    baut: ["status yellow", "Perbaikan"]
-  };
-
+  let html = "";
   if (data[jenis]) {
-    html = data[jenis].map(i => 
-      `<label><input type="checkbox"> ${i}</label><br>`
-    ).join("");
-
-    status.className = statusMap[jenis][0];
-    status.innerText = "Status: " + statusMap[jenis][1];
+    html = data[jenis].map(i => `<label><input type="checkbox"> ${i}</label><br>`).join("");
   }
 
   document.getElementById("checklist").innerHTML = html;
 }
 
-// LAPORKAN
+// LAPOR
 function laporkan() {
   const { jsPDF } = window.jspdf;
 
@@ -190,7 +149,7 @@ function laporkan() {
 
   let checklist = [];
   document.querySelectorAll("#checklist input:checked").forEach(el => {
-    checklist.push("- " + el.parentElement.innerText);
+    checklist.push(el.parentElement.innerText);
   });
 
   let file = document.getElementById("foto").files[0];
@@ -207,83 +166,70 @@ function laporkan() {
 
     // PDF
     let doc = new jsPDF();
-    doc.text("LAPORAN GANGGUAN", 10, 10);
+    doc.text("LAPORAN", 10, 10);
     doc.text(`Lintas: ${lintas}`, 10, 20);
     doc.text(`KM: ${km}`, 10, 25);
     doc.text(`Jenis: ${jenis}`, 10, 30);
-    doc.text(`Waktu: ${new Date().toLocaleString()}`, 10, 35);
 
-    let y = 45;
+    let y = 40;
     checklist.forEach(c => {
-      doc.text(c, 10, y);
+      doc.text("- " + c, 10, y);
       y += 5;
     });
 
     doc.addImage(img, 'JPEG', 10, y+5, 80, 60);
     doc.save("laporan.pdf");
 
-    // SIMPAN
-    let data = {
-      waktu: new Date().toLocaleString(),
-      jenis,
-      checklist,
-      foto: img
-    };
+    // KIRIM KE SHEET
+    fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        waktu: new Date().toLocaleString(),
+        lintas,
+        km,
+        jenis,
+        checklist: checklist.join(", "),
+        foto: img
+      })
+    });
 
-    let key = `history_${lintas}_${km}`;
-    let h = JSON.parse(localStorage.getItem(key)) || [];
-    h.push(data);
-    localStorage.setItem(key, JSON.stringify(h));
+    // WHATSAPP
+    let pesan = `LAPORAN\nLintas:${lintas}\nKM:${km}\nJenis:${jenis}`;
+    window.open("https://wa.me/?text=" + encodeURIComponent(pesan));
 
     tampilkanHistory();
-
-    // WA
-    let pesan =
-`LAPORAN GANGGUAN
-Lintas: ${lintas}
-KM: ${km}
-Jenis: ${jenis}
-Waktu: ${new Date().toLocaleString()}
-
-Checklist:
-${checklist.join("\n")}`;
-
-    window.open("https://wa.me/?text=" + encodeURIComponent(pesan), "_blank");
   };
 
   reader.readAsDataURL(file);
 }
 
-// HISTORY
+// AMBIL HISTORY
 function tampilkanHistory() {
-  let key = `history_${lintas}_${km}`;
-  let h = JSON.parse(localStorage.getItem(key)) || [];
+  fetch(`${API_URL}?lintas=${lintas}&km=${km}`)
+    .then(res => res.json())
+    .then(data => {
 
-  let html = "";
+      let html = "";
 
-  h.slice().reverse().forEach(i => {
-    html += `
-      <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
-        <b>${i.waktu}</b><br>
-        ${i.jenis}<br>
-        <img src="${i.foto}">
-      </div>
-    `;
-  });
+      data.reverse().forEach(i => {
+        html += `
+          <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+            <b>${i.waktu}</b><br>
+            ${i.jenis}<br>
+            <img src="${i.foto}">
+          </div>
+        `;
+      });
 
-  document.getElementById("historyBox").innerHTML = html;
-  document.getElementById("jumlahHistory").innerText = "Total Riwayat: " + h.length;
-
-  // AUTO SCROLL
-  if (h.length > 0) {
-    setTimeout(() => {
-      document.getElementById("historyBox").scrollIntoView({ behavior: "smooth" });
-    }, 500);
-  }
+      document.getElementById("historyBox").innerHTML = html;
+      document.getElementById("jumlahHistory").innerText =
+        "Total: " + data.length;
+    });
 }
 
-// LOAD AWAL
+// AUTO LOAD
 window.onload = tampilkanHistory;
+
 </script>
 
 </body>
