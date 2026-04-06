@@ -88,6 +88,8 @@ img {
         <option value="aus">Keausan Rel</option>
         <option value="sambungan">Sambungan Longgar</option>
         <option value="deformasi">Deformasi Rel</option>
+        <option value="gogosan">Gogosan Rel</option>
+        <option value="lengkung">Lengkung Rel Bermasalah</option>
       </optgroup>
 
       <optgroup label="Wesel">
@@ -120,12 +122,12 @@ img {
   <!-- HISTORY -->
   <div class="card">
     <div class="label">Riwayat</div>
+    <div id="jumlahHistory"></div>
     <div id="historyBox"></div>
   </div>
 
 </div>
 
-<!-- LIBRARY PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
@@ -147,6 +149,8 @@ function loadChecklist() {
     aus: ["Ukur keausan", "Foto", "Monitoring"],
     sambungan: ["Cek baut", "Kencangkan", "Cek alignment"],
     deformasi: ["Cek bentuk", "Batasi kecepatan", "Darurat"],
+    gogosan: ["Identifikasi kedalaman", "Dokumentasi", "Grinding rel"],
+    lengkung: ["Cek radius", "Ukur elevasi", "Batasi kecepatan"],
     lidah: ["Cek lidah", "Bersihkan", "Pastikan rapat"],
     macet: ["Cek motor", "Pelumasan", "Manual"],
     baut: ["Cek baut", "Kencangkan", "Ganti"],
@@ -156,10 +160,12 @@ function loadChecklist() {
   const statusMap = {
     retak: ["status red", "Bahaya Tinggi"],
     deformasi: ["status red", "Bahaya"],
+    lengkung: ["status red", "Risiko Tinggi"],
     lidah: ["status red", "Risiko Tinggi"],
     kunci: ["status red", "Bahaya"],
     aus: ["status yellow", "Monitoring"],
     sambungan: ["status yellow", "Perbaikan"],
+    gogosan: ["status yellow", "Perlu Perawatan"],
     macet: ["status yellow", "Gangguan"],
     baut: ["status yellow", "Perbaikan"]
   };
@@ -177,7 +183,7 @@ function loadChecklist() {
 }
 
 // LAPORKAN
-async function laporkan() {
+function laporkan() {
   const { jsPDF } = window.jspdf;
 
   let jenis = document.getElementById("gangguan").value;
@@ -216,7 +222,7 @@ async function laporkan() {
     doc.addImage(img, 'JPEG', 10, y+5, 80, 60);
     doc.save("laporan.pdf");
 
-    // SIMPAN HISTORY
+    // SIMPAN
     let data = {
       waktu: new Date().toLocaleString(),
       jenis,
@@ -231,7 +237,7 @@ async function laporkan() {
 
     tampilkanHistory();
 
-    // WHATSAPP
+    // WA
     let pesan =
 `LAPORAN GANGGUAN
 Lintas: ${lintas}
@@ -266,8 +272,17 @@ function tampilkanHistory() {
   });
 
   document.getElementById("historyBox").innerHTML = html;
+  document.getElementById("jumlahHistory").innerText = "Total Riwayat: " + h.length;
+
+  // AUTO SCROLL
+  if (h.length > 0) {
+    setTimeout(() => {
+      document.getElementById("historyBox").scrollIntoView({ behavior: "smooth" });
+    }, 500);
+  }
 }
 
+// LOAD AWAL
 window.onload = tampilkanHistory;
 </script>
 
