@@ -1,161 +1,225 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rail Inspection System</title>
+<title>Railway QR Monitoring</title>
 
 <style>
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: Arial, sans-serif;
   background: #f4f6f9;
   margin: 0;
   padding: 0;
 }
 
-.header {
-  background: #1e3a8a;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-}
-
 .container {
+  max-width: 500px;
+  margin: auto;
   padding: 15px;
 }
 
 .card {
-  background: white;
+  background: #fff;
   padding: 15px;
-  border-radius: 12px;
   margin-bottom: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .label {
-  font-size: 13px;
-  color: #888;
-}
-
-.value {
-  font-size: 18px;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
-select, button {
+select, button, input {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  margin-top: 10px;
-  font-size: 14px;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 button {
-  background: #2563eb;
+  background: #007bff;
   color: white;
   border: none;
   font-weight: bold;
 }
 
-button:active {
-  transform: scale(0.98);
-}
-
-.checklist label {
-  display: block;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 8px;
-  background: #f9fafb;
+button:hover {
+  background: #0056b3;
 }
 
 .status {
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
-  text-align: center;
+  color: white;
   font-weight: bold;
-  margin-top: 10px;
+  text-align: center;
 }
 
-.green { background: #dcfce7; color: #166534; }
-.yellow { background: #fef9c3; color: #854d0e; }
-.red { background: #fee2e2; color: #991b1b; }
+.red { background: #dc3545; }
+.yellow { background: #ffc107; color: black; }
+.green { background: #28a745; }
 
+img {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 5px;
+}
 </style>
+
 </head>
-
 <body>
-
-<div class="header">🚆 Rail Inspection System</div>
 
 <div class="container">
 
-  <!-- Info Lokasi -->
+  <!-- INFO LOKASI -->
   <div class="card">
     <div class="label">Lintas</div>
-    <div class="value" id="lintas">-</div>
+    <div id="lintas"></div>
 
-    <div class="label" style="margin-top:10px;">KM</div>
-    <div class="value" id="km">-</div>
+    <div class="label">KM</div>
+    <div id="km"></div>
   </div>
 
-  <!-- Status -->
-  <div id="statusBox" class="status green">
-    Status: Aman
-  </div>
-
-  <!-- Pilih Gangguan -->
+  <!-- PILIH GANGGUAN -->
   <div class="card">
     <div class="label">Jenis Gangguan</div>
     <select id="gangguan" onchange="loadChecklist()">
       <option value="">-- Pilih --</option>
-      <option value="ipm">IPM Elektrik</option>
-      <option value="rel">Kerusakan Rel</option>
+
+      <optgroup label="Rel">
+        <option value="retak">Retak Rel</option>
+        <option value="aus">Keausan Rel</option>
+        <option value="sambungan">Sambungan Longgar</option>
+        <option value="deformasi">Deformasi Rel</option>
+      </optgroup>
+
+      <optgroup label="Wesel">
+        <option value="lidah">Lidah Wesel Tidak Rapat</option>
+        <option value="macet">Penggerak Wesel Macet</option>
+        <option value="baut">Baut Wesel Longgar</option>
+        <option value="kunci">Wesel Tidak Terkunci</option>
+      </optgroup>
     </select>
   </div>
 
-  <!-- Checklist -->
-  <div class="card checklist" id="checklist">
-    <div class="label">Checklist akan muncul di sini</div>
+  <!-- STATUS -->
+  <div id="statusBox" class="status green">Status: Normal</div>
+
+  <!-- CHECKLIST -->
+  <div class="card">
+    <div class="label">Checklist Tindakan</div>
+    <div id="checklist"></div>
   </div>
 
-  <!-- Tombol -->
-  <button onclick="kirim()">🚀 Kirim Laporan</button>
+  <!-- FOTO -->
+  <div class="card">
+    <div class="label">Foto Lokasi</div>
+    <input type="file" accept="image/*" capture="environment" id="foto">
+  </div>
+
+  <!-- BUTTON -->
+  <button onclick="simpanData()">💾 Simpan Laporan</button>
+
+  <!-- HISTORY -->
+  <div class="card">
+    <div class="label">Riwayat Kejadian</div>
+    <div id="historyBox"></div>
+  </div>
 
 </div>
 
 <script>
-// Ambil parameter URL
 const params = new URLSearchParams(window.location.search);
-const lintas = params.get("lintas");
-const km = params.get("km");
+const lintas = params.get("lintas") || "-";
+const km = params.get("km") || "-";
 
-document.getElementById("lintas").innerText = lintas || "-";
-document.getElementById("km").innerText = km || "-";
+document.getElementById("lintas").innerText = lintas;
+document.getElementById("km").innerText = km;
 
-// Checklist dinamis
 function loadChecklist() {
   let jenis = document.getElementById("gangguan").value;
   let html = "";
   let status = document.getElementById("statusBox");
 
-  if (jenis === "ipm") {
+  if (jenis === "retak") {
     html = `
-      <label><input type="checkbox"> Lapor PPKP</label>
-      <label><input type="checkbox"> Lapor Sintelis</label>
-      <label><input type="checkbox"> Info Stasiun Sebelah</label>
+      <label><input type="checkbox"> Identifikasi panjang retak</label><br>
+      <label><input type="checkbox"> Pasang tanda bahaya</label><br>
+      <label><input type="checkbox"> Lapor ke pusat</label>
     `;
-    status.className = "status yellow";
-    status.innerText = "Status: Perlu Penanganan";
+    status.className = "status red";
+    status.innerText = "Status: Bahaya Tinggi";
   }
 
-  if (jenis === "rel") {
+  if (jenis === "aus") {
     html = `
-      <label><input type="checkbox"> Cek Retak</label>
-      <label><input type="checkbox"> Cek Sambungan</label>
-      <label><input type="checkbox"> Pasang Tanda Bahaya</label>
+      <label><input type="checkbox"> Ukur keausan</label><br>
+      <label><input type="checkbox"> Dokumentasi</label><br>
+      <label><input type="checkbox"> Jadwalkan perawatan</label>
+    `;
+    status.className = "status yellow";
+    status.innerText = "Status: Monitoring";
+  }
+
+  if (jenis === "sambungan") {
+    html = `
+      <label><input type="checkbox"> Cek baut</label><br>
+      <label><input type="checkbox"> Kencangkan</label><br>
+      <label><input type="checkbox"> Cek alignment</label>
+    `;
+    status.className = "status yellow";
+    status.innerText = "Status: Perbaikan";
+  }
+
+  if (jenis === "deformasi") {
+    html = `
+      <label><input type="checkbox"> Cek kelengkungan</label><br>
+      <label><input type="checkbox"> Batasi kecepatan</label><br>
+      <label><input type="checkbox"> Lapor darurat</label>
+    `;
+    status.className = "status red";
+    status.innerText = "Status: Bahaya";
+  }
+
+  if (jenis === "lidah") {
+    html = `
+      <label><input type="checkbox"> Cek lidah wesel</label><br>
+      <label><input type="checkbox"> Bersihkan</label><br>
+      <label><input type="checkbox"> Pastikan rapat</label>
+    `;
+    status.className = "status red";
+    status.innerText = "Status: Risiko Tinggi";
+  }
+
+  if (jenis === "macet") {
+    html = `
+      <label><input type="checkbox"> Cek motor</label><br>
+      <label><input type="checkbox"> Pelumasan</label><br>
+      <label><input type="checkbox"> Operasi manual</label>
+    `;
+    status.className = "status yellow";
+    status.innerText = "Status: Gangguan";
+  }
+
+  if (jenis === "baut") {
+    html = `
+      <label><input type="checkbox"> Cek baut</label><br>
+      <label><input type="checkbox"> Kencangkan</label><br>
+      <label><input type="checkbox"> Ganti jika rusak</label>
+    `;
+    status.className = "status yellow";
+    status.innerText = "Status: Perbaikan";
+  }
+
+  if (jenis === "kunci") {
+    html = `
+      <label><input type="checkbox"> Cek pengunci</label><br>
+      <label><input type="checkbox"> Pastikan aman</label><br>
+      <label><input type="checkbox"> Lapor segera</label>
     `;
     status.className = "status red";
     status.innerText = "Status: Bahaya";
@@ -164,18 +228,64 @@ function loadChecklist() {
   document.getElementById("checklist").innerHTML = html;
 }
 
-// Kirim data
-function kirim() {
-  let data = {
-    lintas: lintas,
-    km: km,
-    gangguan: document.getElementById("gangguan").value
+function simpanData() {
+  let jenis = document.getElementById("gangguan").value;
+
+  let checklist = [];
+  document.querySelectorAll("#checklist input:checked").forEach(el => {
+    checklist.push(el.parentElement.innerText);
+  });
+
+  let file = document.getElementById("foto").files[0];
+
+  if (!file) {
+    alert("Foto wajib diambil!");
+    return;
+  }
+
+  let reader = new FileReader();
+  reader.onload = function(e) {
+    let data = {
+      waktu: new Date().toLocaleString(),
+      jenis: jenis,
+      checklist: checklist,
+      foto: e.target.result
+    };
+
+    let key = `history_${lintas}_${km}`;
+    let history = JSON.parse(localStorage.getItem(key)) || [];
+
+    history.push(data);
+    localStorage.setItem(key, JSON.stringify(history));
+
+    alert("Laporan tersimpan!");
+    tampilkanHistory();
   };
 
-  console.log(data);
-
-  alert("✅ Laporan berhasil dikirim!");
+  reader.readAsDataURL(file);
 }
+
+function tampilkanHistory() {
+  let key = `history_${lintas}_${km}`;
+  let history = JSON.parse(localStorage.getItem(key)) || [];
+
+  let html = "";
+
+  history.slice().reverse().forEach(item => {
+    html += `
+      <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
+        <b>${item.waktu}</b><br>
+        Gangguan: ${item.jenis}<br>
+        Checklist: ${item.checklist.join(", ")}<br>
+        <img src="${item.foto}">
+      </div>
+    `;
+  });
+
+  document.getElementById("historyBox").innerHTML = html;
+}
+
+window.onload = tampilkanHistory;
 </script>
 
 </body>
