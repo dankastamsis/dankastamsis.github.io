@@ -1,248 +1,331 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lost & Found KAI Bandara</title>
-
-<style>
-*{box-sizing:border-box}
-body{font-family:Arial;margin:0;background:#f4f6f8}
-.container{max-width:1100px;margin:24px auto;background:white;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.08);overflow:hidden}
-.header{background:#0b57d0;color:white;padding:20px}
-.tabs{display:flex;border-bottom:1px solid #ddd}
-.tab-btn{padding:14px;border:none;background:transparent;cursor:pointer;font-weight:600}
-.tab-btn.active{background:white;border-bottom:3px solid #0b57d0;color:#0b57d0}
-.tab-content{display:none;padding:24px}
-.tab-content.active{display:block}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
-.field{display:flex;flex-direction:column;margin-bottom:12px}
-input,textarea{padding:10px;border:1px solid #ccc;border-radius:8px}
-.actions{margin-top:12px}
-button{padding:10px 16px;border:none;border-radius:8px;cursor:pointer;background:#0b57d0;color:white}
-button.secondary{background:#ccc;color:black}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lost & Found KAI Bandara</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; color: #222; }
+    .container { max-width: 1100px; margin: 24px auto; background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.08); overflow: hidden; }
+    .header { background: #0b57d0; color: white; padding: 20px 24px; }
+    .header h1 { margin: 0; font-size: 28px; }
+    .header p { margin: 6px 0 0; opacity: .9; }
+    .tabs { display: flex; flex-wrap: wrap; border-bottom: 1px solid #ddd; background: #fafafa; }
+    .tab-btn { padding: 14px 18px; border: none; background: transparent; cursor: pointer; font-weight: 600; }
+    .tab-btn.active { background: white; border-bottom: 3px solid #0b57d0; color: #0b57d0; }
+    .tab-content { display: none; padding: 24px; }
+    .tab-content.active { display: block; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    label { font-weight: 600; font-size: 14px; }
+    input, textarea, select { padding: 12px; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; }
+    textarea { min-height: 100px; resize: vertical; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    button.action { background: #0b57d0; color: white; border: none; padding: 12px 18px; border-radius: 10px; cursor: pointer; }
+    button.secondary { background: #e9eefb; color: #0b57d0; }
+    .table-wrap { overflow-x: auto; margin-top: 24px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    th { background: #f8fafc; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #eef4ff; color: #0b57d0; font-size: 12px; }
+  </style>
 </head>
-
 <body>
-
-<div class="container">
-<div class="header">
-<h2>Lost & Found - KAI Bandara</h2>
+  <div class="container">
+    <div class="header">
+      <h1>Lost & Found Management</h1>
+      <p>Stasiun Kuala Bingei</p>
+    </div><div class="tabs">
+  <button class="tab-btn active" onclick="openTab('claim')">Form Pengambilan</button>
+  <button class="tab-btn" onclick="openTab('found')">Form Penemuan</button>
+  <button class="tab-btn" onclick="openTab('handover')">Berita Acara</button>
+  
 </div>
 
-<div class="tabs">
-<button class="tab-btn active" onclick="openTab(event,'claim')">Pengambilan</button>
-<button class="tab-btn" onclick="openTab(event,'found')">Penemuan</button>
-<button class="tab-btn" onclick="openTab(event,'handover')">Berita Acara</button>
-</div>
-
-<!-- CLAIM -->
 <div id="claim" class="tab-content active">
-<h3>Form Pengambilan</h3>
-
-<div class="grid">
-<input id="claimName" placeholder="Nama">
-<input id="claimAddress" placeholder="Alamat">
-<input id="claimIdentity" placeholder="No Identitas">
-<input id="claimPhone" placeholder="Telepon">
-<input id="claimMobile" placeholder="HP">
-<input id="claimEmail" placeholder="Email">
-<input id="claimDate" type="date">
+  <h2>Form Pengambilan Barang</h2>
+  <div class="grid">
+    <div class="field"><label>Nama</label><input id="claimName"></div>
+    <div class="field"><label>Alamat</label><input id="claimAddress"></div>
+    <div class="field"><label>No Identitas</label><input id="claimIdentity"></div>
+    <div class="field"><label>No Telepon</label><input id="claimPhone"></div>
+    <div class="field"><label>No HP</label><input id="claimMobile"></div>
+    <div class="field"><label>Email</label><input id="claimEmail" type="email"></div>
+    <div class="field"><label>Tanggal Pengambilan</label><input id="claimDate" type="date"></div>
+  </div>
+  <div class="field">
+    <label>Deskripsi Barang Hilang</label>
+    <textarea id="claimDescription"></textarea>
+  </div>
+  <div class="field">
+    <label>Dokumentasi Pengambilan</label>
+    <input id="claimPhoto" type="file" accept="image/*" onchange="previewClaimImage(event)">
+    <img id="claimPhotoPreview" style="display:none;max-width:240px;margin-top:10px;border-radius:12px;" />
+  </div>
+  <div class="actions">
+    <button class="action" onclick="saveData('claim')">Simpan</button>
+    <button class="action secondary" onclick="clearForm('claim')">Reset</button>
+  </div>
 </div>
 
-<textarea id="claimDescription" placeholder="Deskripsi barang"></textarea>
-
-<input type="file" id="claimPhoto" accept="image/*" onchange="previewClaimImage(event)">
-<img id="claimPhotoPreview" style="max-width:200px;display:none">
-
-<div class="actions">
-<button onclick="saveData('claim')">Simpan & PDF</button>
+<div id="found" class="tab-content">
+  <h2>Form Penemuan Barang</h2>
+  <div class="grid">
+    <div class="field"><label>Nama Penemu</label><input id="finderName"></div>
+    <div class="field"><label>Lokasi Temuan</label><input id="foundLocation"></div>
+    <div class="field"><label>Tanggal</label><input id="foundDate" type="date"></div>
+    <div class="field"><label>Waktu</label><input id="foundTime" type="time"></div>
+    <div class="field"><label>Nama Barang</label><input id="itemName"></div>
+    <div class="field"><label>No Temuan</label><input id="foundNumber" placeholder="RL/MDN/LOST/01/II/2023"></div>
+  </div>
+  <div class="field">
+    <label>Deskripsi Barang</label>
+    <textarea id="itemDescription"></textarea>
+  </div>
+  <div class="field">
+    <label>Upload Foto Barang</label>
+    <input id="itemPhoto" type="file" accept="image/*" onchange="previewImage(event)">
+    <img id="photoPreview" style="display:none;max-width:240px;margin-top:10px;border-radius:12px;" />
+  </div>
+  <div class="actions">
+    <button class="action" onclick="saveData('found')">Simpan</button>
+    <button class="action secondary" onclick="clearForm('found')">Reset</button>
+  </div>
 </div>
-</div>
 
-<!-- HANDOVER -->
 <div id="handover" class="tab-content">
-<h3>Berita Acara</h3>
-
-<div class="grid">
-<input id="firstParty" placeholder="Pihak 1">
-<input id="firstRole" placeholder="Jabatan">
-<input id="secondParty" placeholder="Pihak 2">
-<input id="secondRole" placeholder="Jabatan">
-<input id="handoverItem" placeholder="Barang">
-<input id="handoverRef" placeholder="No/Tanggal">
-<input id="handoverQty" type="number" value="1">
+  <h2>Berita Acara Penyerahan Barang</h2>
+  <div class="grid">
+    <div class="field"><label>Pihak Pertama</label><input id="firstParty"></div>
+    <div class="field"><label>Jabatan Pihak Pertama</label><input id="firstRole"></div>
+    <div class="field"><label>Pihak Kedua</label><input id="secondParty"></div>
+    <div class="field"><label>Jabatan Pihak Kedua</label><input id="secondRole"></div>
+    <div class="field"><label>Nama Barang</label><input id="handoverItem"></div>
+    <div class="field"><label>No/Tanggal Temuan</label><input id="handoverRef"></div>
+    <div class="field"><label>Jumlah</label><input id="handoverQty" type="number" min="1" value="1"></div>
+  </div>
+  <div class="actions">
+    <button class="action" onclick="saveData('handover')">Simpan</button>
+    <button class="action secondary" onclick="clearForm('handover')">Reset</button>
+  </div>
 </div>
 
-<div class="actions">
-<button onclick="saveData('handover')">Simpan & PDF</button>
-</div>
 </div>
 
-</div>
+  </div>  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  <script>
+    function openTab(id) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+      if (id === 'dashboard') renderTable();
+    }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    function getStorage() {
+      return JSON.parse(localStorage.getItem('lostFoundData') || '[]');
+    }
 
-<script>
+    function saveStorage(data) {
+      localStorage.setItem('lostFoundData', JSON.stringify(data));
+    }
 
-// TAB
-function openTab(evt,id){
-document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-evt.target.classList.add('active');
+    async function saveData(type) {
+      let payload = { type, savedAt: new Date().toLocaleString('id-ID') };
+
+      if (type === 'claim') {
+        payload.data = {
+          nama: claimName.value,
+          alamat: claimAddress.value,
+          identitas: claimIdentity.value,
+          telepon: claimPhone.value,
+          mobile: claimMobile.value,
+          email: claimEmail.value,
+          tanggal: claimDate.value,
+          deskripsi: claimDescription.value,
+          foto: document.getElementById('claimPhotoPreview').src || ''
+        };
+      }
+
+      if (type === 'found') {
+        payload.data = {
+          penemu: finderName.value,
+          lokasi: foundLocation.value,
+          tanggal: foundDate.value,
+          waktu: foundTime.value,
+          barang: itemName.value,
+          nomor: foundNumber.value,
+          deskripsi: itemDescription.value,
+          foto: document.getElementById('photoPreview').src || ''
+        };
+      }
+
+      if (type === 'handover') {
+        payload.data = {
+          pihak1: firstParty.value,
+          jabatan1: firstRole.value,
+          pihak2: secondParty.value,
+          jabatan2: secondRole.value,
+          barang: handoverItem.value,
+          referensi: handoverRef.value,
+          jumlah: handoverQty.value
+        };
+      }
+
+      const db = getStorage();
+      db.push(payload);
+      saveStorage(db);
+      try {
+        await exportFilledPDF(payload);
+        alert('PDF berhasil dibuat dan diunduh');
+      } catch (e) {
+        console.error(e);
+        alert('Gagal export PDF, silakan coba lagi.');
+      }
+    }
+
+    function clearForm(type) {
+      const map = {
+        claim: ['claimName','claimAddress','claimIdentity','claimPhone','claimMobile','claimEmail','claimDate','claimDescription'],
+        found: ['finderName','foundLocation','foundDate','foundTime','itemName','foundNumber','itemDescription'],
+        handover: ['firstParty','firstRole','secondParty','secondRole','handoverItem','handoverRef','handoverQty']
+      };
+      map[type].forEach(id => document.getElementById(id).value = '');
+    }
+
+    async function exportFilledPDF(item) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+      const pageWidth = 210;
+      let y = 18;
+
+      // Border halaman seperti scan
+      doc.rect(10, 10, 190, 277);
+
+      // Header KAI Bandara
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(24);
+      doc.text('KAI', 20, y);
+      doc.setFontSize(14);
+      doc.text('Bandara', 20, y + 6);
+
+      const titleMap = {
+        claim: 'FORM PENGAMBILAN BARANG / FOUND FORM',
+        found: 'FORM PENEMUAN BARANG',
+        handover: 'BERITA ACARA PENYERAHAN BARANG'
+      };
+
+      doc.setFontSize(14);
+      doc.text(titleMap[item.type], pageWidth / 2, 30, { align: 'center' });
+      y = 42;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(11);
+      Object.entries(item.data)
+        .filter(([k]) => k !== 'foto')
+        .forEach(([k, v]) => {
+          doc.text(`${k.replaceAll('_', ' ')}`, 20, y);
+          doc.text(':', 75, y);
+          const split = doc.splitTextToSize(String(v), 110);
+          doc.text(split, 80, y);
+          y += Math.max(8, split.length * 6);
+        });
+
+      // Foto dokumentasi
+      if (item.data.foto) {
+        y += 4;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Foto Dokumentasi Barang', 20, y);
+        y += 4;
+        try {
+          doc.addImage(item.data.foto, 'JPEG', 20, y, 60, 45);
+          y += 52;
+        } catch (e) {}
+      }
+
+      // Tanda tangan ala scan KAI
+      y = 250;
+      doc.setFont('helvetica', 'normal');
+      const leftTitle = item.type === 'found' ? 'DISERAHKAN OLEH' : 'Penerima Barang / Property Claimer';
+      const rightTitle = item.type === 'handover' ? 'Yang Menerima' : 'Security On Station';
+      doc.text(leftTitle, 30, y);
+      doc.text(rightTitle, 130, y);
+      doc.line(25, y + 30, 85, y + 30);
+      doc.line(125, y + 30, 185, y + 30);
+
+      const now = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const code = `KBG${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+      doc.save(`${code} - ${titleMap[item.type]}.pdf`);
+    }
+
+    function previewClaimImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.getElementById('claimPhotoPreview');
+        img.src = e.target.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.getElementById('photoPreview');
+        img.src = e.target.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function exportPDF() {
+      const data = getStorage();
+      const win = window.open('', '_blank');
+      const rows = data.map(item => `
+        <tr>
+          <td>${item.type}</td>
+          <td><pre>${JSON.stringify(item.data, null, 2)}</pre></td><td>${item.savedAt}</td>
+    </tr>`).join('');
+
+  win.document.write(`
+    <html>
+    <head>
+      <title>Menu Lost and Found.pdf</title>
+      <style>
+        body { font-family: Arial; padding: 24px; }
+        h1 { text-align:center; }
+        table { width:100%; border-collapse: collapse; }
+        th, td { border:1px solid #000; padding:8px; vertical-align: top; }
+        th { background:#eee; }
+        pre { white-space: pre-wrap; margin:0; }
+      </style>
+    </head>
+    <body>
+      <h1>SURAT VALIDASI LOST & FOUND</h1>
+      <p>Dokumen resmi hasil export sistem Lost & Found.</p>
+      <table>
+        <thead><tr><th>Jenis Form</th><th>Isi Data</th><th>Tanggal</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </body>
+    </html>
+  `);
+  win.document.close();
+  win.print();
 }
 
-// PREVIEW FOTO
-function previewClaimImage(e){
-const img=document.getElementById('claimPhotoPreview');
-img.src=URL.createObjectURL(e.target.files[0]);
-img.style.display='block';
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(getStorage(), null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'lost-found-data.json';
+  a.click();
 }
 
-// SAVE
-function saveData(type){
-
-let data={};
-
-if(type==='claim'){
-data={
-nama:claimName.value,
-alamat:claimAddress.value,
-identitas:claimIdentity.value,
-telepon:claimPhone.value,
-mobile:claimMobile.value,
-email:claimEmail.value,
-tanggal:claimDate.value,
-deskripsi:claimDescription.value,
-foto:document.getElementById('claimPhotoPreview').src || ''
-};
-}
-
-if(type==='handover'){
-data={
-pihak1:firstParty.value,
-jabatan1:firstRole.value,
-pihak2:secondParty.value,
-jabatan2:secondRole.value,
-barang:handoverItem.value,
-referensi:handoverRef.value,
-jumlah:handoverQty.value
-};
-}
-
-exportFilledPDF(type,data);
-}
-
-
-// ================= PDF =================
-function exportFilledPDF(type,d){
-
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
-
-let y=20;
-
-// BORDER
-doc.rect(10,10,190,277);
-
-// HEADER
-doc.setFontSize(18);
-doc.text('KAI Bandara',20,y);
-
-doc.setFontSize(12);
-
-if(type==='claim'){
-
-doc.text('FORM PENGAMBILAN BARANG / FOUND FORM',105,30,{align:'center'});
-
-y=45;
-
-doc.text('Penumpang Yth,',20,y); y+=6;
-doc.text('Kami mohon maaf atas ketidaknyamanan anda.',20,y); y+=6;
-doc.text('Silahkan mengisi formulir ini.',20,y);
-
-y+=10;
-
-const line=(label,val)=>{
-doc.text(label,20,y);
-doc.text(':',75,y);
-doc.text(val||'-',80,y);
-y+=8;
-};
-
-line('Nama',d.nama);
-line('Alamat',d.alamat);
-line('No Identitas',d.identitas);
-line('Telepon',d.telepon);
-line('HP',d.mobile);
-line('Email',d.email);
-line('Tanggal',d.tanggal);
-
-y+=6;
-
-doc.text('Deskripsi Barang:',20,y);
-y+=6;
-
-const txt=doc.splitTextToSize(d.deskripsi||'-',170);
-doc.text(txt,20,y);
-
-y+=txt.length*6;
-
-// FOTO
-if(d.foto){
-y+=6;
-doc.addImage(d.foto,'JPEG',20,y,60,45);
-}
-
-// TTD
-y=250;
-doc.text('Penerima',30,y);
-doc.text('Petugas',130,y);
-
-doc.line(25,y+25,85,y+25);
-doc.line(125,y+25,185,y+25);
-}
-
-if(type==='handover'){
-
-doc.text('BERITA ACARA PENYERAHAN BARANG',105,30,{align:'center'});
-
-y=45;
-
-const line=(label,val)=>{
-doc.text(label,20,y);
-doc.text(':',60,y);
-doc.text(val||'-',65,y);
-y+=8;
-};
-
-line('Pihak 1',d.pihak1);
-line('Jabatan',d.jabatan1);
-
-y+=4;
-line('Pihak 2',d.pihak2);
-line('Jabatan',d.jabatan2);
-
-y+=6;
-
-line('Barang',d.barang);
-line('Referensi',d.referensi);
-line('Jumlah',d.jumlah);
-
-y=250;
-doc.text('Yang Menyerahkan',30,y);
-doc.text('Yang Menerima',130,y);
-
-doc.line(25,y+25,85,y+25);
-doc.line(125,y+25,185,y+25);
-}
-
-doc.save('KAI_'+type+'.pdf');
-}
-
-</script>
-
+  </script>
 </body>
 </html>
