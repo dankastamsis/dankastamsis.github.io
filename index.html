@@ -241,11 +241,11 @@
           y += 52;
         } catch (e) {}
       }
-
+      
       // Tanda tangan ala scan KAI
       y = 200;
       doc.setFont('helvetica', 'normal');
-      const leftTitle = item.type === 'found' ? 'DISERAHKAN OLEH' : 'Penerima Barang / Property Claimer';
+      const leftTitle = item.type === 'found' ? 'DISERAHKAN OLEH' : 'Penerima Barang';
       const rightTitle = item.type === 'handover' ? 'Yang Menerima' : 'Security On Station';
       doc.text(leftTitle, 30, y);
       doc.text(rightTitle, 130, y);
