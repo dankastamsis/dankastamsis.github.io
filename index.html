@@ -1,265 +1,181 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lost & Found KAI Bandara</title>
-  <style>
-    * { box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; color: #222; }
-    .container { max-width: 1100px; margin: 24px auto; background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.08); overflow: hidden; }
-    .header { background: #0b57d0; color: white; padding: 20px 24px; }
-    .header h1 { margin: 0; font-size: 28px; }
-    .header p { margin: 6px 0 0; opacity: .9; }
-    .tabs { display: flex; flex-wrap: wrap; border-bottom: 1px solid #ddd; background: #fafafa; }
-    .tab-btn { padding: 14px 18px; border: none; background: transparent; cursor: pointer; font-weight: 600; }
-    .tab-btn.active { background: white; border-bottom: 3px solid #0b57d0; color: #0b57d0; }
-    .tab-content { display: none; padding: 24px; }
-    .tab-content.active { display: block; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-    label { font-weight: 600; font-size: 14px; }
-    input, textarea, select { padding: 12px; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; }
-    textarea { min-height: 100px; resize: vertical; }
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
-    button.action { background: #0b57d0; color: white; border: none; padding: 12px 18px; border-radius: 10px; cursor: pointer; }
-    button.secondary { background: #e9eefb; color: #0b57d0; }
-    .table-wrap { overflow-x: auto; margin-top: 24px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-    th { background: #f8fafc; }
-    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #eef4ff; color: #0b57d0; font-size: 12px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H3SOY - Susu Kedelai Sehat</title>
+
+<style>
+body {
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background:#f6f9f6;
+  color:#333;
+}
+
+header {
+  background:#1f6b3d;
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+
+.hero {
+  padding:30px;
+  text-align:center;
+}
+
+.hero img {
+  width:90%;
+  max-width:400px;
+  border-radius:10px;
+}
+
+h1 {
+  color:#1f6b3d;
+}
+
+.section {
+  padding:20px;
+}
+
+.products {
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+}
+
+.card {
+  background:white;
+  border-radius:12px;
+  padding:15px;
+  width:280px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+.card img {
+  width:100%;
+  border-radius:10px;
+}
+
+.price {
+  color:#1f6b3d;
+  font-weight:bold;
+  font-size:18px;
+}
+
+.btn {
+  display:inline-block;
+  margin-top:10px;
+  padding:10px 15px;
+  background:#25D366;
+  color:white;
+  border-radius:8px;
+  text-decoration:none;
+}
+
+.map {
+  width:100%;
+  height:300px;
+  border:0;
+  border-radius:10px;
+}
+
+footer {
+  background:#1f6b3d;
+  color:white;
+  text-align:center;
+  padding:20px;
+  margin-top:30px;
+}
+
+@media(max-width:768px){
+  .products {
+    flex-direction:column;
+    align-items:center;
+  }
+}
+</style>
+
 </head>
+
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>Lost & Found Management</h1>
-      <p>Stasiun Kuala Bingei</p>
-    </div><div class="tabs">
-  <button class="tab-btn active" onclick="openTab('claim')">Form Pengambilan</button>
-  <button class="tab-btn" onclick="openTab('found')">Form Penemuan</button>
-  <button class="tab-btn" onclick="openTab('handover')">Berita Acara</button>
-  
-</div>
 
-<div id="claim" class="tab-content active">
-  <h2>Form Pengambilan Barang</h2>
-  <div class="grid">
-    <div class="field"><label>Nama</label><input id="claimName"></div>
-    <div class="field"><label>Alamat</label><input id="claimAddress"></div>
-    <div class="field"><label>No Identitas</label><input id="claimIdentity"></div>
-    <div class="field"><label>No Telepon</label><input id="claimPhone"></div>
-    <div class="field"><label>No HP</label><input id="claimMobile"></div>
-    <div class="field"><label>Email</label><input id="claimEmail" type="email"></div>
-    <div class="field"><label>Tanggal Pengambilan</label><input id="claimDate" type="date"></div>
+<header>
+  <h2>H3SOY</h2>
+  <p>Susu Kedelai & Susu Kambing Halal, Asli Tanpa Pengawet</p>
+</header>
+
+<section class="hero">
+  <img src="file_0000000037a471fa91e582dceef6f2f7" alt="Produk H3SOY">
+  <h1>Minuman Sehat Setiap Hari</h1>
+  <p>Fresh, alami, dan dibuat dengan bahan berkualitas tinggi.</p>
+</section>
+
+<section class="section">
+  <h2 style="text-align:center;">Produk Kami</h2>
+
+  <div class="products">
+
+    <div class="card">
+      <img src="file_0000000037a471fa91e582dceef6f2f7">
+      <h3>Cup Kecil</h3>
+      <p>Varian: Original & Gula Merah</p>
+      <p class="price">Rp 5.000</p>
+    </div>
+
+    <div class="card">
+      <img src="file_0000000037a471fa91e582dceef6f2f7">
+      <h3>Botol Sedang</h3>
+      <p>Varian: Original & Gula Merah</p>
+      <p class="price">Rp 10.000</p>
+    </div>
+
+    <div class="card">
+      <img src="file_0000000037a471fa91e582dceef6f2f7">
+      <h3>Botol Besar</h3>
+      <p>Varian: Original & Gula Merah</p>
+      <p class="price">Rp 15.000</p>
+    </div>
+
   </div>
-  <div class="field">
-    <label>Deskripsi Barang Hilang</label>
-    <textarea id="claimDescription"></textarea>
-  </div>
-  <div class="field">
-    <label>Dokumentasi Pengambilan</label>
-    <input id="claimPhoto" type="file" accept="image/*" onchange="previewClaimImage(event)">
-    <img id="claimPhotoPreview" style="display:none;max-width:240px;margin-top:10px;border-radius:12px;" />
-  </div>
-  <div class="actions">
-    <button class="action" onclick="saveData('claim')">Simpan</button>
-    <button class="action secondary" onclick="clearForm('claim')">Reset</button>
-  </div>
-</div>
+</section>
 
-<div id="found" class="tab-content">
-  <h2>Form Penemuan Barang</h2>
-  <div class="grid">
-    <div class="field"><label>Nama Penemu</label><input id="finderName"></div>
-    <div class="field"><label>Lokasi Temuan</label><input id="foundLocation"></div>
-    <div class="field"><label>Tanggal</label><input id="foundDate" type="date"></div>
-    <div class="field"><label>Waktu</label><input id="foundTime" type="time"></div>
-    <div class="field"><label>Nama Barang</label><input id="itemName"></div>
-    <div class="field"><label>No Temuan</label><input id="foundNumber" placeholder="RL/MDN/LOST/01/II/2023"></div>
-  </div>
-  <div class="field">
-    <label>Deskripsi Barang</label>
-    <textarea id="itemDescription"></textarea>
-  </div>
-  <div class="field">
-    <label>Upload Foto Barang</label>
-    <input id="itemPhoto" type="file" accept="image/*" onchange="previewImage(event)">
-    <img id="photoPreview" style="display:none;max-width:240px;margin-top:10px;border-radius:12px;" />
-  </div>
-  <div class="actions">
-    <button class="action" onclick="saveData('found')">Simpan</button>
-    <button class="action secondary" onclick="clearForm('found')">Reset</button>
-  </div>
-</div>
+<section class="section">
+  <h2>Deskripsi Produk</h2>
+  <p>
+  H3SOY menghadirkan susu kedelai dan susu kambing berkualitas tinggi yang dibuat dari bahan pilihan terbaik,
+  diproses secara higienis, dan tanpa tambahan bahan pengawet. Dengan slogan "Halal, Asli, Tanpa Pengawet",
+  kami berkomitmen memberikan minuman sehat yang tidak hanya menyegarkan, tetapi juga memberikan manfaat bagi tubuh.
+  Kandungan protein nabati dalam susu kedelai membantu menjaga kesehatan tubuh, meningkatkan energi,
+  serta cocok untuk semua kalangan, mulai dari anak-anak hingga orang dewasa. 
+  Varian rasa original memberikan cita rasa alami yang lembut, sementara gula merah menghadirkan sensasi manis tradisional
+  yang khas dan nikmat. Setiap produk dibuat fresh setiap hari untuk menjaga kualitas, rasa, dan nutrisi terbaik.
+  H3SOY bukan sekadar minuman, tetapi pilihan gaya hidup sehat untuk Anda dan keluarga.
+  </p>
+</section>
 
-<div id="handover" class="tab-content">
-  <h2>Berita Acara Penyerahan Barang</h2>
-  <div class="grid">
-    <div class="field"><label>Pihak Pertama</label><input id="firstParty"></div>
-    <div class="field"><label>Jabatan Pihak Pertama</label><input id="firstRole"></div>
-    <div class="field"><label>Pihak Kedua</label><input id="secondParty"></div>
-    <div class="field"><label>Jabatan Pihak Kedua</label><input id="secondRole"></div>
-    <div class="field"><label>Nama Barang</label><input id="handoverItem"></div>
-    <div class="field"><label>No/Tanggal Temuan</label><input id="handoverRef"></div>
-    <div class="field"><label>Jumlah</label><input id="handoverQty" type="number" min="1" value="1"></div>
-  </div>
-  <div class="actions">
-    <button class="action" onclick="saveData('handover')">Simpan</button>
-    <button class="action secondary" onclick="clearForm('handover')">Reset</button>
-  </div>
-</div>
+<section class="section">
+  <h2>Pesan Sekarang</h2>
+  <a class="btn" href="https://wa.me/6287823579411" target="_blank">
+    Pesan via WhatsApp
+  </a>
+</section>
 
-</div>
+<section class="section">
+  <h2>Lokasi Kami</h2>
 
-  </div>  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  <script>
-    function openTab(id) {
-      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      event.target.classList.add('active');
-      if (id === 'dashboard') renderTable();
-    }
+  <iframe class="map"
+    src="https://www.google.com/maps?q=Jl+Bakti+Dusun+III+Desa+Sidomulyo+Binjai+Langkat&output=embed">
+  </iframe>
 
-    function getStorage() {
-      return JSON.parse(localStorage.getItem('lostFoundData') || '[]');
-    }
+</section>
 
-    function saveStorage(data) {
-      localStorage.setItem('lostFoundData', JSON.stringify(data));
-    }
+<footer>
+  <p>© 2026 H3SOY - Semua Hak Dilindungi</p>
+</footer>
 
-    async function saveData(type) {
-      let payload = { type, savedAt: new Date().toLocaleString('id-ID') };
-
-      if (type === 'claim') {
-        payload.data = {
-          nama: claimName.value,
-          alamat: claimAddress.value,
-          identitas: claimIdentity.value,
-          telepon: claimPhone.value,
-          mobile: claimMobile.value,
-          email: claimEmail.value,
-          tanggal: claimDate.value,
-          deskripsi: claimDescription.value,
-          foto: document.getElementById('claimPhotoPreview').src || ''
-        };
-      }
-
-      if (type === 'found') {
-        payload.data = {
-          penemu: finderName.value,
-          lokasi: foundLocation.value,
-          tanggal: foundDate.value,
-          waktu: foundTime.value,
-          barang: itemName.value,
-          nomor: foundNumber.value,
-          deskripsi: itemDescription.value,
-          foto: document.getElementById('photoPreview').src || ''
-        };
-      }
-
-      if (type === 'handover') {
-        payload.data = {
-          pihak1: firstParty.value,
-          jabatan1: firstRole.value,
-          pihak2: secondParty.value,
-          jabatan2: secondRole.value,
-          barang: handoverItem.value,
-          referensi: handoverRef.value,
-          jumlah: handoverQty.value
-        };
-      }
-
-      const db = getStorage();
-      db.push(payload);
-      saveStorage(db);
-      try {
-        await exportFilledPDF(payload);
-        alert('PDF berhasil dibuat dan diunduh');
-      } catch (e) {
-        console.error(e);
-        alert('Gagal export PDF, silakan coba lagi.');
-      }
-    }
-
-    function clearForm(type) {
-      const map = {
-        claim: ['claimName','claimAddress','claimIdentity','claimPhone','claimMobile','claimEmail','claimDate','claimDescription'],
-        found: ['finderName','foundLocation','foundDate','foundTime','itemName','foundNumber','itemDescription'],
-        handover: ['firstParty','firstRole','secondParty','secondRole','handoverItem','handoverRef','handoverQty']
-      };
-      map[type].forEach(id => document.getElementById(id).value = '');
-    }
-
-    async function exportFilledPDF(item) {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
-      const pageWidth = 210;
-      let y = 18;
-
-      // Border halaman seperti scan
-      doc.rect(10, 10, 190, 277);
-
-      // Header KAI Bandara
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(24);
-      doc.text('KAI', 20, y);
-      doc.setFontSize(14);
-      doc.text('Bandara', 20, y + 6);
-
-      const titleMap = {
-        claim: 'FORM PENGAMBILAN BARANG / FOUND FORM',
-        found: 'FORM PENEMUAN BARANG',
-        handover: 'BERITA ACARA PENYERAHAN BARANG'
-      };
-
-      doc.setFontSize(14);
-      doc.text(titleMap[item.type], pageWidth / 2, 30, { align: 'center' });
-      y = 42;
-
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(11);
-      Object.entries(item.data)
-        .filter(([k]) => k !== 'foto')
-        .forEach(([k, v]) => {
-          doc.text(`${k.replaceAll('_', ' ')}`, 20, y);
-          doc.text(':', 75, y);
-          const split = doc.splitTextToSize(String(v), 110);
-          doc.text(split, 80, y);
-          y += Math.max(8, split.length * 6);
-        });
-
-      // Foto dokumentasi
-      if (item.data.foto) {
-        y += 4;
-        doc.setFont('helvetica', 'bold');
-        doc.text('Foto Dokumentasi Barang', 20, y);
-        y += 4;
-        try {
-          doc.addImage(item.data.foto, 'JPEG', 20, y, 60, 45);
-          y += 52;
-        } catch (e) {}
-      }
-    
-      
-      // Tanda tangan ala scan KAI
-      y = 200;
-      doc.setFont('helvetica', 'normal');
-      const leftTitle = item.type === 'found' ? 'DISERAHKAN OLEH' : 'Penerima Barang';
-      const rightTitle = item.type === 'handover' ? 'Yang Menerima' : 'Security On Station';
-      doc.text(leftTitle, 30, y);
-      doc.text(rightTitle, 130, y);
-      doc.line(25, y + 30, 85, y + 30);
-      doc.line(125, y + 30, 185, y + 30);
-
-      const now = new Date();
-      const pad = n => String(n).padStart(2, '0');
-      const code = `KBG${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
-      doc.save(`${code} - ${titleMap[item.type]}.pdf`);
-    }
-
-
-  </script>
 </body>
 </html>
