@@ -3,178 +3,279 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>H3SOY - Susu Kedelai Sehat</title>
+<title>H3SOY - Susu Kedelai & Susu Kambing</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
 body {
-  margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  background:#f6f9f6;
-  color:#333;
+  background: #f9f9f7;
+  color: #333;
 }
 
-header {
-  background:#1f6b3d;
-  color:white;
-  padding:20px;
-  text-align:center;
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10%;
+  background: white;
+  align-items: center;
 }
 
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.whatsapp-btn {
+  background: #25D366;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 20px;
+}
+
+/* HERO */
 .hero {
-  padding:30px;
-  text-align:center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 10%;
+  background: linear-gradient(120deg, #eef5ee, #ffffff);
+}
+
+.hero-text h1 {
+  font-size: 40px;
+  color: #2e7d32;
+}
+
+.hero-text p {
+  margin: 20px 0;
+}
+
+.cta {
+  background: #2e7d32;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 30px;
+  display: inline-block;
+  text-decoration: none;
 }
 
 .hero img {
-  width:90%;
-  max-width:400px;
-  border-radius:10px;
+  width: 400px;
+  border-radius: 20px;
 }
 
-h1 {
-  color:#1f6b3d;
-}
-
-.section {
-  padding:20px;
-}
-
+/* PRODUK */
 .products {
-  display:flex;
-  flex-wrap:wrap;
-  gap:20px;
-  justify-content:center;
+  padding: 60px 10%;
+  text-align: center;
+}
+
+.products h2 {
+  color: #2e7d32;
+  margin-bottom: 30px;
+}
+
+.card-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .card {
-  background:white;
-  border-radius:12px;
-  padding:15px;
-  width:280px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  text-align:center;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 250px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .card img {
-  width:100%;
-  border-radius:10px;
+  width: 100%;
 }
 
 .price {
-  color:#1f6b3d;
-  font-weight:bold;
-  font-size:18px;
+  margin-top: 10px;
+  background: #2e7d32;
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
 }
 
-.btn {
-  display:inline-block;
-  margin-top:10px;
-  padding:10px 15px;
-  background:#25D366;
-  color:white;
-  border-radius:8px;
-  text-decoration:none;
+/* DESKRIPSI */
+.desc {
+  padding: 60px 10%;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
+.desc-left {
+  flex: 2;
+}
+
+.desc-right {
+  flex: 1;
+  background: #2e7d32;
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+/* ORDER */
+.order {
+  text-align: center;
+  padding: 40px;
+  background: #eef5ee;
+}
+
+.order a {
+  font-size: 24px;
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* MAP */
 .map {
-  width:100%;
-  height:300px;
-  border:0;
-  border-radius:10px;
+  padding: 40px;
+  text-align: center;
 }
 
+iframe {
+  width: 100%;
+  height: 300px;
+  border-radius: 15px;
+}
+
+/* FOOTER */
 footer {
-  background:#1f6b3d;
-  color:white;
-  text-align:center;
-  padding:20px;
-  margin-top:30px;
+  background: #1b5e20;
+  color: white;
+  padding: 40px;
+  text-align: center;
 }
 
+/* RESPONSIVE */
 @media(max-width:768px){
-  .products {
-    flex-direction:column;
-    align-items:center;
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero img {
+    margin-top: 20px;
+    width: 100%;
   }
 }
 </style>
-
 </head>
 
 <body>
 
-<header>
-  <h2>H3SOY</h2>
-  <p>Susu Kedelai & Susu Kambing Halal, Asli Tanpa Pengawet</p>
-</header>
+<nav>
+  <div class="logo">H3SOY</div>
+  <div>
+    <a href="#">Beranda</a>
+    <a href="#">Produk</a>
+    <a href="#">Tentang</a>
+    <a href="#">Kontak</a>
+  </div>
+  <a class="whatsapp-btn" href="https://wa.me/6287823579411">WhatsApp</a>
+</nav>
 
 <section class="hero">
-  <img src="file_0000000037a471fa91e582dceef6f2f7" alt="Produk H3SOY">
-  <h1>Minuman Sehat Setiap Hari</h1>
-  <p>Fresh, alami, dan dibuat dengan bahan berkualitas tinggi.</p>
+  <div class="hero-text">
+    <h1>Susu Kedelai & Susu Kambing</h1>
+    <p>Halal, Asli, Tanpa Pengawet. Fresh setiap hari untuk kesehatan keluarga Anda.</p>
+    <a class="cta" href="https://wa.me/6287823579411">Pesan Sekarang</a>
+  </div>
+  <img src="produk.jpg" alt="produk">
 </section>
 
-<section class="section">
-  <h2 style="text-align:center;">Produk Kami</h2>
+<section class="products">
+  <h2>Produk Kami</h2>
 
-  <div class="products">
-
+  <div class="card-container">
+    
     <div class="card">
-      <img src="file_0000000037a471fa91e582dceef6f2f7">
+      <img src="cup.jpg">
       <h3>Cup Kecil</h3>
       <p>Varian: Original & Gula Merah</p>
-      <p class="price">Rp 5.000</p>
+      <div class="price">Rp 5.000</div>
     </div>
 
     <div class="card">
-      <img src="file_0000000037a471fa91e582dceef6f2f7">
+      <img src="botol-sedang.jpg">
       <h3>Botol Sedang</h3>
       <p>Varian: Original & Gula Merah</p>
-      <p class="price">Rp 10.000</p>
+      <div class="price">Rp 10.000</div>
     </div>
 
     <div class="card">
-      <img src="file_0000000037a471fa91e582dceef6f2f7">
+      <img src="botol-besar.jpg">
       <h3>Botol Besar</h3>
       <p>Varian: Original & Gula Merah</p>
-      <p class="price">Rp 15.000</p>
+      <div class="price">Rp 15.000</div>
     </div>
 
   </div>
 </section>
 
-<section class="section">
-  <h2>Deskripsi Produk</h2>
-  <p>
-  H3SOY menghadirkan susu kedelai dan susu kambing berkualitas tinggi yang dibuat dari bahan pilihan terbaik,
-  diproses secara higienis, dan tanpa tambahan bahan pengawet. Dengan slogan "Halal, Asli, Tanpa Pengawet",
-  kami berkomitmen memberikan minuman sehat yang tidak hanya menyegarkan, tetapi juga memberikan manfaat bagi tubuh.
-  Kandungan protein nabati dalam susu kedelai membantu menjaga kesehatan tubuh, meningkatkan energi,
-  serta cocok untuk semua kalangan, mulai dari anak-anak hingga orang dewasa. 
-  Varian rasa original memberikan cita rasa alami yang lembut, sementara gula merah menghadirkan sensasi manis tradisional
-  yang khas dan nikmat. Setiap produk dibuat fresh setiap hari untuk menjaga kualitas, rasa, dan nutrisi terbaik.
-  H3SOY bukan sekadar minuman, tetapi pilihan gaya hidup sehat untuk Anda dan keluarga.
-  </p>
+<section class="desc">
+  <div class="desc-left">
+    <h2>Susu Kedelai & Susu Kambing Halal, Asli Tanpa Pengawet</h2>
+    <p>
+    H3SOY hadir sebagai solusi minuman sehat yang dibuat dari bahan pilihan berkualitas tinggi. 
+    Diproses secara higienis setiap hari tanpa bahan pengawet, sehingga memberikan kesegaran alami 
+    dan manfaat terbaik bagi tubuh. Kandungan protein nabati dari kedelai membantu menjaga daya tahan tubuh, 
+    melancarkan pencernaan, dan cocok untuk semua usia. 
+    Dengan dua varian rasa yaitu original dan gula merah, H3SOY memberikan cita rasa alami, lezat, dan menyehatkan.
+    </p>
+  </div>
+
+  <div class="desc-right">
+    <h3>Kenapa H3SOY?</h3>
+    <ul>
+      <li>✔ Tanpa pengawet</li>
+      <li>✔ Fresh setiap hari</li>
+      <li>✔ Halal & higienis</li>
+      <li>✔ Rasa alami</li>
+    </ul>
+  </div>
 </section>
 
-<section class="section">
+<section class="order">
   <h2>Pesan Sekarang</h2>
-  <a class="btn" href="https://wa.me/6287823579411" target="_blank">
-    Pesan via WhatsApp
-  </a>
+  <p>Chat WhatsApp:</p>
+  <a href="https://wa.me/6287823579411">0878-2357-9411</a>
 </section>
 
-<section class="section">
+<section class="map">
   <h2>Lokasi Kami</h2>
-
-  <iframe class="map"
-    src="https://www.google.com/maps?q=Jl+Bakti+Dusun+III+Desa+Sidomulyo+Binjai+Langkat&output=embed">
-  </iframe>
-
+  <p>Jl. Bakti Dusun III Desa Sidomulyo</p>
+  
+  <iframe src="https://maps.google.com/maps?q=Desa%20Sidomulyo&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
 </section>
 
 <footer>
-  <p>© 2026 H3SOY - Semua Hak Dilindungi</p>
+  <p>© 2024 H3SOY - All Rights Reserved</p>
 </footer>
 
 </body>
