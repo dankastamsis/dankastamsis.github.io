@@ -3,185 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>H3SOY - Susu Kedelai & Susu Kambing</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>H3SOY - Susu Kedelai Premium</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+:root{
+  --green:#1f5f3a;
+  --light:#f7f5f0;
+  --accent:#e6d8b5;
 }
 
-body {
-  background: #f9f9f7;
-  color: #333;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* NAVBAR */
-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 10%;
-  background: white;
-  align-items: center;
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--light);
+  color:#222;
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #2e7d32;
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:25px 10%;
+  background:white;
 }
 
-nav a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: #333;
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  color:var(--green);
+  font-weight:700;
 }
 
-.whatsapp-btn {
-  background: #25D366;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 20px;
+.nav-links a{
+  margin:0 15px;
+  text-decoration:none;
+  color:#444;
+}
+
+.btn-wa{
+  background:#25D366;
+  color:white;
+  padding:10px 20px;
+  border-radius:25px;
+  text-decoration:none;
 }
 
 /* HERO */
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 60px 10%;
-  background: linear-gradient(120deg, #eef5ee, #ffffff);
+.hero{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:80px 10%;
+  gap:40px;
 }
 
-.hero-text h1 {
-  font-size: 40px;
-  color: #2e7d32;
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:48px;
+  color:var(--green);
 }
 
-.hero-text p {
-  margin: 20px 0;
+.hero p{
+  margin:20px 0;
+  color:#555;
+  line-height:1.6;
 }
 
-.cta {
-  background: #2e7d32;
-  color: white;
-  padding: 14px 24px;
-  border-radius: 30px;
-  display: inline-block;
-  text-decoration: none;
+.cta{
+  background:var(--green);
+  color:white;
+  padding:14px 28px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:600;
 }
 
-.hero img {
-  width: 400px;
-  border-radius: 20px;
+.hero img{
+  width:420px;
+  border-radius:20px;
 }
 
 /* PRODUK */
-.products {
-  padding: 60px 10%;
-  text-align: center;
+.products{
+  padding:80px 10%;
+  text-align:center;
 }
 
-.products h2 {
-  color: #2e7d32;
-  margin-bottom: 30px;
+.products h2{
+  font-family:'Playfair Display',serif;
+  font-size:32px;
+  color:var(--green);
+  margin-bottom:40px;
 }
 
-.card-container {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
+.cards{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
 }
 
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  width: 250px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+.card{
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  width:260px;
+  transition:.3s;
 }
 
-.card img {
-  width: 100%;
+.card:hover{
+  transform:translateY(-8px);
 }
 
-.price {
-  margin-top: 10px;
-  background: #2e7d32;
-  color: white;
-  padding: 8px;
-  border-radius: 10px;
+.card img{
+  width:100%;
+  margin-bottom:15px;
 }
 
-/* DESKRIPSI */
-.desc {
-  padding: 60px 10%;
-  display: flex;
-  gap: 40px;
-  flex-wrap: wrap;
+.card h3{
+  font-family:'Playfair Display',serif;
+  margin-bottom:5px;
 }
 
-.desc-left {
-  flex: 2;
+.price{
+  margin-top:10px;
+  background:var(--green);
+  color:white;
+  padding:10px;
+  border-radius:12px;
 }
 
-.desc-right {
-  flex: 1;
-  background: #2e7d32;
-  color: white;
-  padding: 20px;
-  border-radius: 15px;
+/* DESC */
+.desc{
+  padding:80px 10%;
+  display:flex;
+  gap:40px;
+  flex-wrap:wrap;
+}
+
+.desc-left{
+  flex:2;
+}
+
+.desc-left h2{
+  font-family:'Playfair Display',serif;
+  margin-bottom:20px;
+  color:var(--green);
+}
+
+.desc-left p{
+  line-height:1.8;
+  color:#444;
+}
+
+.desc-box{
+  flex:1;
+  background:var(--green);
+  color:white;
+  padding:25px;
+  border-radius:18px;
 }
 
 /* ORDER */
-.order {
-  text-align: center;
-  padding: 40px;
-  background: #eef5ee;
+.order{
+  padding:60px;
+  text-align:center;
+  background:white;
 }
 
-.order a {
-  font-size: 24px;
-  color: #2e7d32;
-  text-decoration: none;
-  font-weight: bold;
+.order a{
+  font-size:26px;
+  color:var(--green);
+  text-decoration:none;
+  font-weight:700;
 }
 
 /* MAP */
-.map {
-  padding: 40px;
-  text-align: center;
+.map{
+  padding:60px 10%;
+  text-align:center;
 }
 
-iframe {
-  width: 100%;
-  height: 300px;
-  border-radius: 15px;
+iframe{
+  width:100%;
+  height:300px;
+  border-radius:15px;
 }
 
 /* FOOTER */
-footer {
-  background: #1b5e20;
-  color: white;
-  padding: 40px;
-  text-align: center;
+footer{
+  background:var(--green);
+  color:white;
+  padding:40px;
+  text-align:center;
 }
 
 /* RESPONSIVE */
 @media(max-width:768px){
-  .hero {
-    flex-direction: column;
-    text-align: center;
+  .hero{
+    flex-direction:column;
+    text-align:center;
   }
-
-  .hero img {
-    margin-top: 20px;
-    width: 100%;
+  .hero img{
+    width:100%;
   }
 }
 </style>
@@ -191,91 +224,85 @@ footer {
 
 <nav>
   <div class="logo">H3SOY</div>
-  <div>
+  <div class="nav-links">
     <a href="#">Beranda</a>
     <a href="#">Produk</a>
     <a href="#">Tentang</a>
-    <a href="#">Kontak</a>
   </div>
-  <a class="whatsapp-btn" href="https://wa.me/6287823579411">WhatsApp</a>
+  <a class="btn-wa" href="https://wa.me/6287823579411">WhatsApp</a>
 </nav>
 
 <section class="hero">
-  <div class="hero-text">
-    <h1>Susu Kedelai & Susu Kambing</h1>
-    <p>Halal, Asli, Tanpa Pengawet. Fresh setiap hari untuk kesehatan keluarga Anda.</p>
+  <div>
+    <h1>Susu Kedelai & Susu Kambing Premium</h1>
+    <p>
+    Minuman sehat halal, asli tanpa pengawet. Diproduksi segar setiap hari dari bahan pilihan untuk menjaga kualitas terbaik bagi Anda dan keluarga.
+    </p>
     <a class="cta" href="https://wa.me/6287823579411">Pesan Sekarang</a>
   </div>
-  <img src="produk.jpg" alt="produk">
+  <img src="produk.jpg">
 </section>
 
 <section class="products">
-  <h2>Produk Kami</h2>
+  <h2>Pilihan Produk</h2>
 
-  <div class="card-container">
-    
+  <div class="cards">
     <div class="card">
       <img src="cup.jpg">
       <h3>Cup Kecil</h3>
-      <p>Varian: Original & Gula Merah</p>
+      <p>Original & Gula Merah</p>
       <div class="price">Rp 5.000</div>
     </div>
 
     <div class="card">
       <img src="botol-sedang.jpg">
       <h3>Botol Sedang</h3>
-      <p>Varian: Original & Gula Merah</p>
+      <p>Original & Gula Merah</p>
       <div class="price">Rp 10.000</div>
     </div>
 
     <div class="card">
       <img src="botol-besar.jpg">
       <h3>Botol Besar</h3>
-      <p>Varian: Original & Gula Merah</p>
+      <p>Original & Gula Merah</p>
       <div class="price">Rp 15.000</div>
     </div>
-
   </div>
 </section>
 
 <section class="desc">
   <div class="desc-left">
-    <h2>Susu Kedelai & Susu Kambing Halal, Asli Tanpa Pengawet</h2>
+    <h2>Halal, Alami, Tanpa Pengawet</h2>
     <p>
-    H3SOY hadir sebagai solusi minuman sehat yang dibuat dari bahan pilihan berkualitas tinggi. 
-    Diproses secara higienis setiap hari tanpa bahan pengawet, sehingga memberikan kesegaran alami 
-    dan manfaat terbaik bagi tubuh. Kandungan protein nabati dari kedelai membantu menjaga daya tahan tubuh, 
-    melancarkan pencernaan, dan cocok untuk semua usia. 
-    Dengan dua varian rasa yaitu original dan gula merah, H3SOY memberikan cita rasa alami, lezat, dan menyehatkan.
+    H3SOY adalah minuman sehat berbasis susu kedelai dan susu kambing yang diproduksi dengan standar kebersihan tinggi. 
+    Kami menggunakan bahan pilihan tanpa tambahan pengawet atau bahan kimia, sehingga setiap tetesnya menghadirkan rasa alami yang segar. 
+    Diproses setiap hari untuk menjaga kualitas dan kesegaran, H3SOY cocok untuk semua kalangan, dari anak-anak hingga dewasa.
     </p>
   </div>
 
-  <div class="desc-right">
-    <h3>Kenapa H3SOY?</h3>
-    <ul>
-      <li>✔ Tanpa pengawet</li>
-      <li>✔ Fresh setiap hari</li>
-      <li>✔ Halal & higienis</li>
-      <li>✔ Rasa alami</li>
-    </ul>
+  <div class="desc-box">
+    <h3>Keunggulan</h3>
+    <p>✔ Fresh setiap hari</p>
+    <p>✔ Tanpa pengawet</p>
+    <p>✔ Halal & higienis</p>
+    <p>✔ Rasa alami premium</p>
   </div>
 </section>
 
 <section class="order">
-  <h2>Pesan Sekarang</h2>
-  <p>Chat WhatsApp:</p>
-  <a href="https://wa.me/6287823579411">0878-2357-9411</a>
+  <h2>Pesan via WhatsApp</h2>
+  <a href="https://wa.me/6287823579411">0878 2357 9411</a>
 </section>
 
 <section class="map">
-  <h2>Lokasi Kami</h2>
+  <h2>Lokasi</h2>
   <p>Jl. Bakti Dusun III Desa Sidomulyo</p>
-  
+
   <iframe src="https://maps.google.com/maps?q=Desa%20Sidomulyo&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
 </section>
 
 <footer>
-  <p>© 2024 H3SOY - All Rights Reserved</p>
+  <p>© H3SOY - Premium Soy Milk</p>
 </footer>
 
 </body>
